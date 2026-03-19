@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:openai.com)",
+      "WebFetch(domain:www.infoq.com)",
+      "WebFetch(domain:www.nxcode.io)",
+      "WebFetch(domain:gtcode.com)",
+      "Bash(for dir:*)",
+      "Bash(do echo:*)",
+      "Read(//workspaces/fdc-ota/**)",
+      "Bash(done)",
+      "Bash(wc -l /workspaces/fdc-ota/ota-host/src/*.rs /workspaces/fdc-ota/ota-vehicle/src/*.rs /workspaces/fdc-ota/ota-ecu/src/*.rs /workspaces/fdc-ota/ota-utils/src/*.rs)",
+      "Bash(wc -l /workspaces/fdc-ota/ota-utils/src/upgrade/*.rs /workspaces/fdc-ota/ota-utils/src/cancomm/*.rs)",
+      "Bash(wc -l /workspaces/fdc-ota/ota-utils/src/signal/*.rs)",
+      "WebSearch",
+      "Bash(ls -d /workspaces/fdc-ota/*/)"
+    ]
+  }
+}
