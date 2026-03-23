@@ -20,7 +20,6 @@ FDC-OTA is a firmware Over-the-Air update system for Foxtron EV vehicles. It man
 | Communication protocols (DDS, CAN, UDS, DoIP, DBus, MQTT) | [docs/protocols.md](docs/protocols.md) |
 | Development environment & cross-compilation | [docs/development.md](docs/development.md) |
 | Known agent failure modes | [docs/pitfalls.md](docs/pitfalls.md) |
-| Claude Code-specific settings | [CLAUDE.md](CLAUDE.md) |
 
 ---
 
@@ -46,8 +45,18 @@ cargo test --package ota-host --lib module::test_name
 cargo test --package ota-vehicle --lib backend::test_name -- --include-ignored
 
 # Coverage
-make coverage-d21f      # HTML report for d21f
+make coverage-d21f      # HTML report for d21f model
+make coverage-d31l      # HTML report for d31l model
+make coverage-ta2       # HTML report for ta2 model
+make coverage-all       # Run all model coverage reports sequentially
 make coverage-for-ci    # Merged LCOV + HTML + JSON per model
+```
+
+**Integration test prerequisites:**
+```bash
+make run-dbus-daemon                                          # DBus daemon
+ip link add vcan2 type vcan && ip link set vcan2 up          # Virtual CAN interface
+cp ota-host/tests/D21_Routing.toml /etc/uds/Routing.toml    # UDS routing config
 ```
 
 ---
@@ -72,6 +81,45 @@ make coverage-for-ci    # Merged LCOV + HTML + JSON per model
 | `srec` | Motorola S-record file format parser/writer |
 | `xsumo` | XSUMO protocol bindings |
 | `tbox` | T-Box specific utilities |
+
+---
+
+## Feature Flags
+
+Vehicle model selection is a **compile-time** decision via Cargo features — flags are mutually exclusive and must not be combined.
+
+| Flag | Description |
+|---|---|
+| `d21f`, `d21m` | D21 vehicle variants |
+| `d31l`, `d31l24`, `d31f25`, `d31h`, `d31x` | D31 vehicle variants |
+| `ta2` | TA2 vehicle model |
+| `p71`, `pe1` | P71/PE1 models |
+| `ivi` | Android IVI platform (`ota-ecu` only) |
+| `tbox` | T-Box 5G modem platform (`ota-ecu` only) |
+| `fastdds` | FastDDS middleware (`ota-xsumo` only) |
+
+---
+
+## Cross-Compilation
+
+| Target | SDK Path |
+|---|---|
+| `aarch64-unknown-linux-gnu` (main) | `/opt/fsl-auto/40.0/` (NXP FSL Auto 40.0 SDK) |
+| TI AM62XX (T-Box) | `/opt/ti-processor-sdk-linux-am62xx-evm-10.01.10.04/` |
+| Android IVI | `./gradlew assembleFullRelease` (standard Gradle) |
+
+The `SDK` variable in the Makefile sources the appropriate cross-compilation environment.
+
+---
+
+## CI/CD
+
+GitHub Actions workflows in `.github/workflows/`:
+
+- **`main.yml`** — Runs on every push: lint → test → coverage → build (all models + IVI + tbox) → release (on tags)
+- **`test-coverage.yml`** — Runs on PRs: generates per-model coverage and posts a comment (`COVERAGE_THRESHOLD=50`)
+
+CI uses self-hosted runners with the `foxtronevtech/rust:v3.4` Docker image (includes cross-compilation toolchain).
 
 ---
 
