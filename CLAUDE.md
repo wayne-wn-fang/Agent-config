@@ -23,6 +23,16 @@ bash ~/Agent-config/setup-worktree-env.sh
 
 This creates symlinks so the worktree always reads the latest agent config from this repo, and adds the symlinked names to both `~/.gitignore_global` and the worktree-local `.git/info/exclude`.
 
+## Issue Tracking
+
+When you encounter a potential problem (bug, risk, or code smell), append it to `ISSUES.md` in the working directory:
+
+```
+- [ ] [problem description] (location: filename:line_number)
+```
+
+Do not create `ISSUES.md` proactively — only write to it when an actual issue is found.
+
 ## Plans
 
 Store implementation plans under `fdc-ota/docs/plan/`. One file per plan, e.g. `fdc-ota/docs/plan/feature-name.md`.
