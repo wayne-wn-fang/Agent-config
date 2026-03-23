@@ -23,6 +23,10 @@ bash ~/Agent-config/setup-worktree-env.sh
 
 This creates symlinks so the worktree always reads the latest agent config from this repo, and adds the symlinked names to both `~/.gitignore_global` and the worktree-local `.git/info/exclude`.
 
+## Plans
+
+Store implementation plans under `fdc-ota/docs/plan/`. One file per plan, e.g. `fdc-ota/docs/plan/feature-name.md`.
+
 ## Maintenance
 
 - When fdc-ota agent configs need updating, edit files under `fdc-ota/` here and commit. All worktrees pick up the changes immediately via symlinks.
