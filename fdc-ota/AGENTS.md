@@ -135,6 +135,31 @@ CI uses self-hosted runners with the `foxtronevtech/rust:v3.4` Docker image (inc
 
 ---
 
+## Git Commit Convention
+
+### Header Format
+`TICKET-ID: [Scope: ] Subject`
+
+- **Ticket ID** — required, links to Jira (e.g. `FDC-123`)
+- **Scope** — optional, e.g. `model`, `view`, `controller`
+- **Subject** — imperative mood, first letter capitalized, no trailing period
+- Header must not exceed 72 characters
+
+### Body Rules
+- Blank line required between Header and Body
+- Explain *what* was done and *why*
+- Each line must not exceed 75 characters
+- Body is required unless the change is trivial
+
+### Example
+```
+FDC-123: model: App crash when low memory
+
+Open file without closing leads to memory leaks
+```
+
+---
+
 ## Coding Conventions
 
 - **Rust edition:** 2021 (workspace-wide, version `1.1.x`)
