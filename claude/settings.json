@@ -1,0 +1,19 @@
+{
+  "effortLevel": "medium",
+  "autoDreamEnabled": false,
+  "skipDangerousModePermissionPrompt": true,
+  "includeCoAuthoredBy": false,
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash(git commit*)",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/validate-commit.sh"
+          }
+        ]
+      }
+    ]
+  }
+}
