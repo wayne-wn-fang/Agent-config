@@ -1,5 +1,14 @@
 #!/bin/bash
 
+# Step 1: Lint
+echo "🔍 執行 make lint..."
+make lint
+if [ $? -ne 0 ]; then
+  echo "❌ Lint 失敗，請修正錯誤後再 commit"
+  exit 1
+fi
+echo "✅ Lint 通過"
+
 # PreToolUse hooks receive JSON via stdin.
 # Extract the bash command from the tool input.
 TOOL_INPUT=$(cat)
