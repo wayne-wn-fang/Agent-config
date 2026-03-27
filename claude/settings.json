@@ -1,12 +1,9 @@
 {
-  "effortLevel": "medium",
-  "autoDreamEnabled": false,
-  "skipDangerousModePermissionPrompt": true,
   "includeCoAuthoredBy": false,
   "hooks": {
     "PreToolUse": [
       {
-        "matcher": "Bash(git commit*)",
+        "matcher": "Bash(*git commit*)",
         "hooks": [
           {
             "type": "command",
@@ -15,5 +12,11 @@
         ]
       }
     ]
+  },
+  "effortLevel": "medium",
+  "autoDreamEnabled": false,
+  "skipDangerousModePermissionPrompt": true,
+  "enabledPlugins": {
+    "rust-analyzer-lsp@claude-plugins-official": true
   }
 }

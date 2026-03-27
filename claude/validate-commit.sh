@@ -1,10 +1,50 @@
 #!/bin/bash
 
-# 取得 commit message
-COMMIT_MSG="$1"
+# PreToolUse hooks receive JSON via stdin.
+# Extract the bash command from the tool input.
+TOOL_INPUT=$(cat)
+COMMAND=$(echo "$TOOL_INPUT" | python3 -c "
+import json, sys
+data = json.load(sys.stdin)
+print(data.get('tool_input', {}).get('command', ''))
+" 2>/dev/null)
+
+# Only proceed if this command contains a git commit
+if ! echo "$COMMAND" | grep -q 'git commit'; then
+    exit 0
+fi
+
+# Extract the commit message from the command.
+# Handle two formats:
+#   1. -m "single line message"
+#   2. -m "$(cat <<'EOF'\nmulti\nline\nEOF\n)"  (heredoc)
+COMMIT_MSG=$(echo "$COMMAND" | python3 -c "
+import sys, re
+
+cmd = sys.stdin.read()
+
+# Try heredoc format first: content between <<'EOF' and EOF (or <<EOF and EOF)
+m = re.search(r\"<<'?EOF'?\n(.*?)\nEOF\", cmd, re.DOTALL)
+if m:
+    print(m.group(1).strip())
+    sys.exit(0)
+
+# Try -m \"...\" format (single or multiline inside quotes after -m)
+m = re.search(r'-m\s+\"(.*?)\"(?:\s|$)', cmd, re.DOTALL)
+if m:
+    print(m.group(1).strip())
+    sys.exit(0)
+
+# Try -m '...' format
+m = re.search(r\"-m\s+'(.*?)'(?:\s|$)\", cmd, re.DOTALL)
+if m:
+    print(m.group(1).strip())
+    sys.exit(0)
+" 2>/dev/null)
+
 if [ -z "$COMMIT_MSG" ]; then
-  # 從 git 暫存區取得
-  COMMIT_MSG=$(cat .git/COMMIT_EDITMSG 2>/dev/null)
+    echo "⚠️  無法解析 commit message，跳過格式驗證"
+    exit 0
 fi
 
 ERRORS=()
@@ -59,11 +99,11 @@ if [ ${#ERRORS[@]} -gt 0 ]; then
   done
   echo ""
   echo "📋 正確格式範例："
-  echo "  FDC-123: App crash when low memory"
+  echo "  OTAFVT-110: Add parallel update support"
   echo "  （空行）"
-  echo "  1. Catch null pointer exception"
-  echo "  2. Add error handle"
-  exit 1  # 非 0 exit code 會讓 Claude Code 中止 commit
+  echo "  1. Spawn DDS tasks concurrently"
+  echo "  2. UDS/SPI lane waits on conflicts"
+  exit 1
 fi
 
 echo "✅ Commit message 格式正確"
