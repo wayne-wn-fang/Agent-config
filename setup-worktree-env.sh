@@ -15,7 +15,7 @@ echo "🚀 開始為 $TARGET_DIR 建立 AI 開發環境..."
 # 1. 建立軟連結 (強制覆蓋舊連結，且路徑末尾不加斜線以防 Git 誤判)
 ln -sf "$CONFIG_BASE/AGENTS.md" ./AGENTS.md
 ln -sf "$CONFIG_BASE/AGENTS.md" ./CLAUDE.md
-ln -sf "$CONFIG_BASE/docs" ./docs
+ln -sfn "$CONFIG_BASE/docs" ./docs
 
 echo "🔗 軟連結建立完成 (AGENTS.md, CLAUDE.md -> AGENTS.md, docs)"
 
@@ -64,5 +64,11 @@ mkdir -p "$HOOKS_DIR"
 ln -sf "$HOME/Agent-config/claude/validate-commit.sh" "$HOOKS_DIR/validate-commit.sh"
 chmod +x "$HOME/Agent-config/claude/validate-commit.sh"
 echo "🔗 validate-commit.sh 已連結 ($HOOKS_DIR/validate-commit.sh)"
+
+# 6. 將 pr-review.md 連結到 ~/.claude/commands/
+COMMANDS_DIR="$HOME/.claude/commands"
+mkdir -p "$COMMANDS_DIR"
+ln -sf "$HOME/Agent-config/claude/pr-review.md" "$COMMANDS_DIR/pr-review.md"
+echo "🔗 pr-review.md 已連結 ($COMMANDS_DIR/pr-review.md)"
 
 echo "✅ 環境同步成功！執行 git status 檢查看看吧。"
