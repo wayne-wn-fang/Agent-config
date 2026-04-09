@@ -160,6 +160,40 @@ Open file without closing leads to memory leaks
 
 ---
 
+## Task Execution Rules
+
+### Planning Phase
+Before starting any task, produce an execution plan in the following format:
+
+```
+## Task Plan
+- [ ] Phase 1: [description] → commit: "FDC-123: what was done"
+- [ ] Phase 2: [description] → commit: "FDC-123: what was done"
+- [ ] Phase 3: [description] → commit: "FDC-123: what was done"
+```
+
+Wait for confirmation before starting execution.
+
+### Execution Phase
+- After completing each phase, **commit before moving on to the next phase**
+- Run `make lint` before every commit to ensure no errors
+- Follow the [Git Commit Convention](#git-commit-convention) above
+- After each phase commit, report progress before continuing
+
+### When to Commit
+- ✅ A standalone feature is complete
+- ✅ A bug fix is complete
+- ✅ Tests have been added
+- ❌ Do not commit incomplete or mid-task code
+
+### Progress Tracking
+- Use `TaskCreate`/`TaskUpdate` to mark each phase as "in progress" before starting it
+- Use `TaskUpdate` to mark each phase as "done" after its commit
+- If a problem is encountered, log it with `TaskCreate` instead of stopping to ask
+- Use `TaskList` at any time to check current progress
+
+---
+
 ## Coding Conventions
 
 - **Rust edition:** 2021 (workspace-wide, version `1.1.x`)
