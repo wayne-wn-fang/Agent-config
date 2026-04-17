@@ -4,16 +4,26 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Purpose
 
-This repository stores AI agent configuration files for the **fdc-ota** project (Foxtron EV firmware OTA update system). It is not the fdc-ota source code — it holds the docs and agent guidance that get symlinked into fdc-ota worktrees.
+This repository stores AI agent configuration files for the **fdc-ota** and **remote-ota** projects (Foxtron EV firmware OTA systems). It is not the project source code — it holds the docs and agent guidance that get symlinked into project worktrees.
 
 ## Repository Structure
+
+### fdc-ota
 
 - `fdc-ota/AGENTS.md` — Authoritative AI agent entry point for the fdc-ota project. This is the primary file agents read when working in a fdc-ota worktree.
 - `fdc-ota/docs/` — Architecture, protocol, vehicle model, development, and pitfalls documentation for fdc-ota.
 - `fdc-ota/.claude/settings.local.json` — Claude Code permissions scoped to fdc-ota worktrees.
 - `setup-worktree-env.sh` — Script that symlinks `AGENTS.md`, `CLAUDE.md`, and `docs/` from this repo into a new fdc-ota git worktree, and configures git to ignore those symlinks.
 
+### remote-ota
+
+- `remote-ota/AGENTS.md` — Authoritative AI agent entry point for the remote-ota project.
+- `remote-ota/docs/` — Architecture, protocol, and development documentation for remote-ota.
+- `setup-worktree-env-remote-ota.sh` — Script that symlinks `AGENTS.md`, `CLAUDE.md`, and `docs/` from this repo into a new remote-ota git worktree, and configures git to ignore those symlinks.
+
 ## Workflow: Setting Up a New Worktree
+
+### fdc-ota worktree
 
 When a new fdc-ota worktree is created, run from inside that worktree directory:
 
@@ -21,7 +31,15 @@ When a new fdc-ota worktree is created, run from inside that worktree directory:
 bash ~/Agent-config/setup-worktree-env.sh
 ```
 
-This creates symlinks so the worktree always reads the latest agent config from this repo, and adds the symlinked names to both `~/.gitignore_global` and the worktree-local `.git/info/exclude`.
+### remote-ota worktree
+
+When a new remote-ota worktree is created, run from inside that worktree directory:
+
+```bash
+bash ~/Agent-config/setup-worktree-env-remote-ota.sh
+```
+
+Both scripts create symlinks so the worktree always reads the latest agent config from this repo, and add the symlinked names to both `~/.gitignore_global` and the worktree-local `.git/info/exclude`.
 
 ## Issue Tracking
 
