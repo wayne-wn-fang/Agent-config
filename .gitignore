@@ -1,0 +1,3 @@
+# Un-ignore docs/ in this repo — global gitignore blocks it (added by setup-worktree-env.sh)
+!docs
+!docs/
