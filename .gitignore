@@ -1,3 +1,6 @@
-# Un-ignore docs/ in this repo — global gitignore blocks it (added by setup-worktree-env.sh)
+# Un-ignore files blocked by global gitignore (added by setup-worktree-env.sh)
+# This repo IS the source of those files, so they must be tracked here.
+!AGENTS.md
+!CLAUDE.md
 !docs
 !docs/
