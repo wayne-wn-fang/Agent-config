@@ -76,12 +76,11 @@ The file follows the same structure as `fdc-ota/AGENTS.md`. Sections and content
 Two sentences: what `remote-ota` does (single-shot OTA trigger/monitor tool in Rust, for FDC vehicle devices over AWS IoT Core MQTT) and the role of this Agent-config directory (authoritative source for agent guidance and docs, symlinked into worktrees).
 
 ### 4.2 Repository Structure
-Table or list of the four source modules and their single responsibility each:
+Table of the source modules and their single responsibility each (based on current main branch — `session.rs` exists only in a worktree branch and should be documented once merged):
 
 | File | Responsibility |
 |------|---------------|
 | `src/main.rs` | CLI parsing, MQTT setup, single-shot orchestration, exit-code mapping |
-| `src/session.rs` | Per-attempt OTA state machine and timeout handling |
 | `src/messages.rs` | Protocol payload building and JSON parsing helpers |
 | `src/topics.rs` | MQTT topic construction helpers |
 
