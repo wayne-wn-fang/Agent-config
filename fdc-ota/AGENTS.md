@@ -142,12 +142,16 @@ CI uses self-hosted runners with the `foxtronevtech/rust:v3.4` Docker image (inc
 
 - **Ticket ID** — required, links to Jira (e.g. `FDC-123`)
 - **Scope** — optional, e.g. `model`, `view`, `controller`
+- **Default style** — prefer `TICKET-ID: Subject`; do not add an extra
+  scope/prefix after the ticket ID unless the user explicitly asks for one
 - **Subject** — imperative mood, first letter capitalized, no trailing period
 - Header must not exceed 72 characters
 
 ### Body Rules
 - Blank line required between Header and Body
 - Explain *what* was done and *why*
+- Use real newline characters in the body; never include literal `\n`
+  escape sequences in the committed message
 - Each line must not exceed 75 characters
 - Body is required unless the change is trivial
 
@@ -174,10 +178,33 @@ Before starting any task, produce an execution plan in the following format:
 
 Wait for confirmation before starting execution.
 
+### Diagrams in Plans and Specs
+
+All plans and design specs **must** include Mermaid diagrams where they aid understanding. Use the right diagram type for each situation:
+
+| Situation | Diagram type |
+|---|---|
+| Component relationships, before/after architecture | `graph TD` or `graph LR` |
+| Workflows, state machines, phase progression | `flowchart TD` or `flowchart LR` |
+| Message flows between components over time | `sequenceDiagram` |
+
+**Required diagrams for every plan:**
+1. **Current state** — what the code looks like today (before the change)
+2. **Target state** — what it should look like after the change
+3. **Phase progression** — how the plan moves from current to target (if phased)
+
+**Required diagrams for every design spec:**
+1. **Component diagram** — major components and their relationships
+2. **Data/message flow** — how data moves through the system
+
+Diagrams go at the top of the document, before the detailed steps. Use Mermaid fenced code blocks (` ```mermaid `). Keep each diagram focused — one concept per diagram.
+
 ### Execution Phase
 - After completing each phase, **commit before moving on to the next phase**
 - Run `make lint` before every commit to ensure no errors
 - Follow the [Git Commit Convention](#git-commit-convention) above
+- After each commit, inspect `git show -s --format=%B <commit>` and confirm
+  the blank line and body wrapping rendered as actual newlines
 - After each phase commit, report progress before continuing
 
 ### When to Commit
@@ -202,6 +229,47 @@ Wait for confirmation before starting execution.
 - **Config:** `figment` with TOML files + environment variable overrides
 - **Logging:** `tracing` + `tracing-subscriber` with `env-filter`
 - **Serialization:** `serde` + `serde_json`; use `serde_repr` for integer-backed enums
+- **Lifetime style:** avoid introducing explicit `'static` lifetimes when an
+  owned type, concrete generic, or small wrapper can express the same behavior
+
+## Rust Rules
+
+When writing or modifying Rust in this project, prefer simple, direct,
+maintainable, production-ready code.
+
+Core principles:
+
+- **Simple over Smart**
+- **Clear over Clever**
+- **Maintainable over Fancy**
+- **Practical over Idiomatic**
+- **Boring Rust over Smart Rust**
+
+Only solve the requirement in front of you. Do not solve imagined future needs.
+
+Avoid:
+
+- over-engineering
+- unnecessary abstraction
+- trait abuse
+- generic abuse
+- macro abuse
+- unnecessary lifetimes
+- unnecessary `Result` or `Option` wrapping
+- long iterator chains
+- clever or "smart" Rust
+- design patterns without a real need
+- speculative future-proofing
+
+Prefer:
+
+- use a `for` loop when it is clearer
+- if `Vec` + `struct` + a function solves it, do not complicate it
+- keep functions short
+- choose clear, direct names
+- keep only the error handling that is actually needed
+
+Write boring Rust, not smart Rust.
 
 ---
 
