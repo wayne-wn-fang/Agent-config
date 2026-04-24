@@ -8,6 +8,11 @@ This repository stores AI agent configuration files for the **fdc-ota** and **re
 
 ## Repository Structure
 
+### global
+
+- `global/codex/AGENTS.md` — Global Codex agent rules shared across environments.
+- `setup-global-agent-env.sh` — Script that symlinks `~/.codex/AGENTS.md` to `global/codex/AGENTS.md`.
+
 ### fdc-ota
 
 - `fdc-ota/AGENTS.md` — Authoritative AI agent entry point for the fdc-ota project. This is the primary file agents read when working in a fdc-ota worktree.
@@ -22,6 +27,14 @@ This repository stores AI agent configuration files for the **fdc-ota** and **re
 - `setup-worktree-env-remote-ota.sh` — Script that symlinks `AGENTS.md`, `CLAUDE.md`, and `docs/` from this repo into a new remote-ota git worktree, and configures git to ignore those symlinks.
 
 ## Workflow: Setting Up a New Worktree
+
+### global Codex config
+
+When setting up Codex on a machine, run:
+
+```bash
+bash ~/Agent-config/setup-global-agent-env.sh
+```
 
 ### fdc-ota worktree
 

@@ -6,10 +6,22 @@ AI agent configuration and documentation for the **fdc-ota** project (Foxtron EV
 
 | Path | Purpose |
 |---|---|
+| `global/codex/AGENTS.md` | Global Codex agent rules shared across environments |
 | `fdc-ota/AGENTS.md` | Authoritative AI agent entry point for fdc-ota — build commands, workspace layout, feature flags, coding conventions, pitfalls |
 | `fdc-ota/docs/` | Architecture, protocols, vehicle models, development environment, and agent pitfall log |
 | `fdc-ota/.claude/settings.local.json` | Claude Code permissions for fdc-ota worktrees |
+| `setup-global-agent-env.sh` | Links `~/.codex/AGENTS.md` to the global Codex rules in this repo |
 | `setup-worktree-env.sh` | Sets up a new fdc-ota git worktree with symlinks to this config |
+
+## Setting Up Global Codex Rules
+
+Run:
+
+```bash
+bash ~/Agent-config/setup-global-agent-env.sh
+```
+
+This symlinks `~/.codex/AGENTS.md` to `global/codex/AGENTS.md`.
 
 ## Setting Up a New Worktree
 
