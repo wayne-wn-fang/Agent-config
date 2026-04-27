@@ -1,3 +1,6 @@
+---
+applyTo: "**"
+---
 # Global Rust Rules
 
 請用簡單、直接、可維護、production-ready 的 Rust 寫法。
