@@ -232,47 +232,6 @@ Diagrams go at the top of the document, before the detailed steps. Use Mermaid f
 - **Lifetime style:** avoid introducing explicit `'static` lifetimes when an
   owned type, concrete generic, or small wrapper can express the same behavior
 
-## Rust Rules
-
-When writing or modifying Rust in this project, prefer simple, direct,
-maintainable, production-ready code.
-
-Core principles:
-
-- **Simple over Smart**
-- **Clear over Clever**
-- **Maintainable over Fancy**
-- **Practical over Idiomatic**
-- **Boring Rust over Smart Rust**
-
-Only solve the requirement in front of you. Do not solve imagined future needs.
-
-Avoid:
-
-- over-engineering
-- unnecessary abstraction
-- trait abuse
-- generic abuse
-- macro abuse
-- unnecessary lifetimes
-- unnecessary `Result` or `Option` wrapping
-- long iterator chains
-- clever or "smart" Rust
-- design patterns without a real need
-- speculative future-proofing
-
-Prefer:
-
-- use a `for` loop when it is clearer
-- if `Vec` + `struct` + a function solves it, do not complicate it
-- keep functions short
-- choose clear, direct names
-- keep only the error handling that is actually needed
-
-Write boring Rust, not smart Rust.
-
----
-
 ## Common Agent Pitfalls
 
 See [docs/pitfalls.md](docs/pitfalls.md) for the full, growing list. Critical items:
