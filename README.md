@@ -10,10 +10,10 @@ AI agent configuration and documentation for the **fdc-ota** project (Foxtron EV
 | `fdc-ota/AGENTS.md` | Authoritative AI agent entry point for fdc-ota — build commands, workspace layout, feature flags, coding conventions, pitfalls |
 | `fdc-ota/docs/` | Architecture, protocols, vehicle models, development environment, and agent pitfall log |
 | `fdc-ota/.claude/settings.local.json` | Claude Code permissions for fdc-ota worktrees |
-| `setup-global-agent-env.sh` | Links `~/.codex/AGENTS.md` to the global Codex rules in this repo |
+| `setup-global-agent-env.sh` | Links global Codex, Copilot, and Claude Code config from this repo into the user environment |
 | `setup-worktree-env.sh` | Sets up a new fdc-ota git worktree with symlinks to this config |
 
-## Setting Up Global Codex Rules
+## Setting Up Global Agent Rules
 
 Run:
 
@@ -21,7 +21,13 @@ Run:
 bash ~/Agent-config/setup-global-agent-env.sh
 ```
 
-This symlinks `~/.codex/AGENTS.md` to `global/codex/AGENTS.md`.
+This symlinks:
+
+- `~/.codex/AGENTS.md` -> `global/codex/AGENTS.md`
+- `~/.vscode-server/data/User/prompts/rust-rules.instructions.md` -> `global/codex/AGENTS.md`
+- `~/.claude/CLAUDE.md` -> `global/codex/AGENTS.md`
+- `~/.claude/settings.json` -> `claude/settings.json`
+- `~/.claude/hooks/validate-commit.sh` -> `claude/validate-commit.sh`
 
 ## Setting Up a New Worktree
 
