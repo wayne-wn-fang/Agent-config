@@ -4,7 +4,7 @@
 
 `remote-ota` is a single-shot Rust tool that triggers and monitors one OTA firmware update
 attempt for one FDC vehicle device over AWS IoT Core MQTT. Each invocation connects,
-probes the device VIN, launches `remote-updater`, monitors correlated status traffic,
+probes the device VIN, launches `remote-updater`, monitors status traffic,
 and exits with a deterministic exit code.
 
 This Agent-config directory (`~/Agent-config/remote-ota/`) is the authoritative source
@@ -19,10 +19,8 @@ worktree — edit here and all worktrees pick up changes immediately.
 |------|---------------|
 | `src/main.rs` | CLI parsing, MQTT setup, single-shot orchestration, exit-code mapping |
 | `src/messages.rs` | Protocol payload building and JSON parsing helpers |
+| `src/session.rs` | OTA state machine and timeout handling |
 | `src/topics.rs` | MQTT topic construction helpers |
-
-> Note: `src/session.rs` (OTA state machine and timeout handling) exists in a worktree
-> branch and will be added to this table once merged to main.
 
 ---
 
@@ -63,8 +61,6 @@ e.g. `docs/superpowers/plans/feature-name.md`.
   Do not add retry loops.
 - **VIN safety:** A VIN mismatch must always exit with code `2`.
   Never relax or bypass this check.
-- **AttemptId correlation:** Correlation is strict string equality on the top-level
-  `attemptId` field. Never accept a message with a missing or non-matching `attemptId`.
 - **Dual-topic publishing:** Probe and launch commands must always be published to both
   the legacy (`{sn}`) and IOV (`{sn}/iov/remote-cmd/sreq/run-cmd/v0`) run-cmd topics.
   Never publish to only one.
